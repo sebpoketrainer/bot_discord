@@ -813,13 +813,18 @@ async def process_match(ctx, match, winners):
 
 async def run_bot():
     try:
+        print("Iniciando el bot...")
         await bot.start(TOKEN)
     except discord.errors.HTTPException as e:
         print(f"Error HTTP: {e}")
-        print("Esperando 10 segundos antes de reintentar...")
-        time.sleep(10)  # Retrasar el reintento
-        await run_bot()  # Reintentar la conexión
+        if e.status == 429:  # Detectamos el error 429
+            print("Demasiadas solicitudes, esperando 30 segundos antes de intentar de nuevo.")
+            await asyncio.sleep(30)  # Esperar 30 segundos antes de reintentar
+            await run_bot()  # Reintentar la conexión
+        else:
+            print("Error no esperado, terminando el bot.")
+            raise e  # Si es otro tipo de error, lo levantamos para detener el bot
 
 # Llamada inicial al bot
 loop = asyncio.get_event_loop()
-loop.run_until_complete(run_bot())  # Usa run_until_complete en lugar de bot.run()
+loop.run_until_complete(run_bot())  # Usamos run_until_complete para tener control total

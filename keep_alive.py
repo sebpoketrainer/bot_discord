@@ -1,13 +1,18 @@
-import os
-from flask import Flask
+from flask import Flask, render_template
+from threading import Thread
 
 app = Flask(__name__)
 
-port = int(os.environ.get("PORT", 5000))
 
 @app.route('/')
-def hello():
-    return "Hello World!"
+def index():
+    return "¡Estoy vivo!"
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port)
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()

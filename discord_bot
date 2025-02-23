@@ -9,6 +9,7 @@ import random
 import asyncpg
 import logging
 from collections import defaultdict
+from keep_alive import keep_alive
 from datetime import datetime
 import pytz
 
@@ -39,6 +40,7 @@ intents.reactions = True        # Permite manejar reacciones en los mensajes
 
 # Crear una instancia del bot
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None) 
+keep_alive()
 
 # Evento para manejar comandos no reconocidos
 @bot.event
@@ -83,7 +85,7 @@ async def ayuda(ctx):
 2. !miperfil: Mostrar estadísticas de usuario.
 3. !eliminar @usuario: Eliminar un usuario (solo admin).
 4. !ranking: Mostrar el ranking de jugadores.
-5. !crearpartida @usuario: Crea una partida con el usuario etiquetado. Ambos jugadores deben confirmar la creación de la partida y tienen que reportar resutlados coherentes.
+5. !partida @usuario: Crea una partida con el usuario etiquetado. Ambos jugadores deben confirmar la creación de la partida y tienen que reportar resutlados coherentes.
 
 **Comandos para Admin:**
 1. !eliminar @usuario: Eliminar un usuario
@@ -321,7 +323,7 @@ async def generate_match_id():
 
 # Comando para generar un codigo de partida
 @bot.command()
-async def crearcodigo(ctx):
+async def codigo(ctx):
     # Llamar a la función para verificar el canal
     if not verificar_canal(ctx, ID_CANAL_TORNEOS):
         await ctx.send("❌ Este comando solo puede ejecutarse en el canal torneos.")
@@ -341,7 +343,7 @@ async def verificar_registro(discord_id):
         return False
 
 @bot.command()
-async def crearpartida(ctx, rival: discord.User):
+async def partida(ctx, rival: discord.User):
     # Llamar a la función para verificar el canal
     if not verificar_canal(ctx, ID_CANAL_COMANDOS_RANKED):
         await ctx.send("❌ Este comando solo puede ejecutarse en el canal comandos-ranked.")
@@ -648,7 +650,7 @@ async def actualizar_puntaje(player_id, rival_id, result, match_id):
         print(f"Error al actualizar puntaje: {e}")
 
 
-### PARA TORNEOS ###
+### PARA TORNEOS ###git remote add origin https://github.com/sebpoketrainer/bot_discord.git
 
 # Diccionario para almacenar los jugadores registrados
 tournament_players = []

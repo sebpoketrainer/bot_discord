@@ -811,8 +811,15 @@ async def process_match(ctx, match, winners):
         await ctx.send(f"⏳ Nadie confirmó el resultado entre {player1.mention} y {player2.mention}. La partida queda sin resolución.")
 
 
-# Iniciar el bot
-try:
-    bot.run(TOKEN)
-except Exception as e:
-    print(f"Error al iniciar el bot: {e}")
+async def run_bot():
+    try:
+        await bot.start(TOKEN)
+    except discord.errors.HTTPException as e:
+        print(f"Error HTTP: {e}")
+        print("Esperando 10 segundos antes de reintentar...")
+        time.sleep(10)  # Retrasar el reintento
+        await run_bot()  # Reintentar la conexión
+
+# Llamada inicial al bot
+loop = asyncio.get_event_loop()
+loop.run_until_complete(run_bot())  # Usa run_until_complete en lugar de bot.run()

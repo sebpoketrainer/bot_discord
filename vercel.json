@@ -1,16 +1,1 @@
-{
-    "version": 2,
-    "builds": [
-      {
-        "src": "discord_bot.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "env": {
-    "SUPABASE_URL": "@SUPABASE_URL",
-    "SUPABASE_KEY": "@SUPABASE_KEY",
-    "DISCORD_TOKEN": "@DISCORD_TOKEN",
-    "ID_CANAL_COMANDOS_RANKED": "@ID_CANAL_COMANDOS_RANKED",
-    "ID_CANAL_TORNEOS": "@ID_CANAL_TORNEOS"
-  }
-  }
+

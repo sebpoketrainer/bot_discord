@@ -812,4 +812,7 @@ async def process_match(ctx, match, winners):
 
 
 # Iniciar el bot
-bot.run(TOKEN)
+try:
+    bot.run(TOKEN)
+except Exception as e:
+    print(f"Error al iniciar el bot: {e}")
